@@ -1,0 +1,47 @@
+CREATE TABLE course_units(
+code VARCHAR(10),
+title VARCHAR(50),
+credits INT(1),
+lecture_hrs INT(2),
+theory_hrs INT(2),
+practical_hrs INT(2),
+user_id VARCHAR(20),
+department_id VARCHAR(10),
+PRIMARY KEY(code)
+);
+
+ALTER TABLE course_units
+ADD FOREIGN KEY(user_id)REFERENCES student(userId);
+
+ALTER TABLE course_units
+ADD FOREIGN KEY(department_id)REFERENCES department(depId);
+
+CREATE TABLE exam_marks(
+quiz1 DECIMAL(5,2),
+quiz2 DECIMAL(5,2),
+quiz3 DECIMAL(5,2),
+assessment DECIMAL(5,2),
+mid_theory DECIMAL(5,2),
+mid_practical DECIMAL(5,2),
+end_theory DECIMAL(5,2),
+end_practical DECIMAL(5,2),
+course_code VARCHAR(10),
+user_id VARCHAR(20)
+);
+
+ALTER TABLE exam_marks
+ADD FOREIGN KEY(course_code)REFERENCES course_units(code);
+
+ALTER TABLE exam_marks
+ADD FOREIGN KEY(user_id)REFERENCES student(userID);
+
+CREATE TABLE course_units_exam_marks(
+course_code VARCHAR(10),
+user_id VARCHAR(20)
+);
+
+ALTER TABLE course_units_exam_marks
+ADD FOREIGN KEY(course_code)REFERENCES course(code);
+
+ALTER TABLE course_units_exam_marks
+ADD FOREIGN KEY(user_id)REFERENCES student(userId);
