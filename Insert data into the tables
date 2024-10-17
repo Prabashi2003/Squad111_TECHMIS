@@ -1,0 +1,81 @@
+INSERT INTO user VALUES
+("AD/001","admin96@gmail.com","Rajitha","Perera","Admin","M","1995-10-02"),
+("DE/002","deanfot@gmail.com","Subash","Jayasinghe","Dean","M","1971-10-02"),
+
+("TO/003","janith99@gmail.com","Janith","Fernando","Technical Officer","M","1999-02-18"),
+("TO/004","nisal97@gmail.com","Nisal","Silva","Technical Officer","M","1997-06-02"),
+("TO/005","chalana98@gmail.com","Chalana","Perera","Technical Officer","M","1998-12-28"),
+("TO/006","isuru123@gmail.com","Isuru","Lakshan","Technical Officer","M","1991-10-02"),
+("TO/007","raveesha1997@gmail.com","Raveesha","Kalpani","Technical Officer","F","1997-05-15"),
+("TO/008","supun78@gmail.com","Supun","Gamage","Technical Officer","M","1978-04-17"),
+("TO/009","kalpa123@gmail.com","Kalpa","Shamali","Technical Officer","F","1984-11-18"),
+("TO/010","sudesh94@gmail.com","Sudesh","Lakpriya","Technical Officer","M","1994-01-16"),
+("TO/011","ishanka24@gmail.com","Ishanka","kalpani","Technical Officer","F","1999-12-30"),
+("TO/012","sadun1990@gmail.com","Sadun","Wikramasinghe","Technical Officer","M","1990-10-15"),
+
+("LEC/013","nuwan84@gmail.com","Nuwan","Laksiri","Lecturer","M","1984-11-14"),
+("LEC/014","chanduni23@gmail.com","Chanduni","Gamage","Lecturer","F","1995-10-02"),
+("LEC/015","Chandimal94@gmail.com","Chandimal","Jayasinghe","Lecturer","M","1994-01-23"),
+("LEC/016","nimesh99@gmail.com","Nimesh","Perera","Lecturer","M","1999-05-11"),
+("LEC/017","harshana55@gmail.com","Harshana","Siriwardana","Lecturer","M","1987-08-22"),
+("LEC/018","rumeshika123@gmail.com","Rumeshika","Dilhani","Lecturer","F","1981-12-15"),
+("LEC/019","Hiranya123@gmail.com","Hiranya","Amarasinghe","Lecturer","F","1988-07-02"),
+("LEC/020","nilanthi80@gmail.com","Nilanthi","Adhikaram","Lecturer","F","1980-05-15"),
+("LEC/021","kalhara44@gmail.com","kalhara","Silva","Lecturer","M","1995-10-02"),
+("LEC/022","pramuditha87@gmail.com","Pramuditha","Perera","Lecturer","M","1987-11-27"),
+
+("ST/2021/023","saduni16@gmail.com","Saduni","Fernando","student","M","1998-10-07"),
+("ST/2021/024","hiruni123@gmail.com","Hiruni","Kaweesha","student","M","1999-05-22"),
+("ST/2020/025","krishani55@gmail.com","Krishani","Jayaweera","student","M","1997-11-31"),
+("ST/2020/026","nawodya98@gmail.com","Nawodya","Fernando","student","M","1998-10-07"),
+("ST/2021/027","vinday22@gmail.com","Vindya","Silva","student","M","2002-10-07"),
+
+("ST/2022/028","poojani888@gmail.com","Poojani","Gamage","student","M","2002-10-07"),
+("ST/2022/029","prabashi23@gmail.com","Prabashi","Jayaweera","student","F","2003-01-23"),
+("ST/2022/030","keshali22@gmail.com","Kaveesha","Keshali","student","F","2002-10-05"),
+("ST/2022/031","piyumi22@gmail.com","Piyumi","Kaveesha","student","F","2002-05-18"),
+("ST/2022/032","jayani22@gmail.com","Jayani","Madusha","student","F","2002-11-30"),
+("ST/2022/033","kusal@gmail.com","Kusal","Akalanka","student","M","2002-10-28"),
+("ST/2022/034","janith24@gmail.com","Janith","Perera","student","M","2001-07-25"),
+("ST/2022/035","sadun2001@gmail.com","Sadun","Silva","student","M","2001-10-02"),
+("ST/2022/036","kasun123@gmail.com","kasun","Kalhara","student","M","2002-10-22"),
+("ST/2022/037","rajitha12@gmail.com","Rajitha","Silva","student","M","2003-12-15") ;
+
+
+INSERT INTO technical_officer VALUES
+("AD/003","depICT"),
+("AD/004","depICT"),
+("AD/005","depET"),
+("AD/006","depET"),
+("AD/007","depET"),
+("AD/008","depBST"),
+("AD/009","depICT"),
+("AD/010","depMulti"),
+("AD/011","depBST"),
+("AD/012","depMulti") ;
+
+
+INSERT INTO student VALUES
+("ST/2021/023",2.2,"Repeat"),
+("ST/2021/024",2.1,"Repeat"),
+("ST/2020/025",2.0,"Repeat"),
+("ST/2020/026",1.9,"Repeat"),
+("ST/2021/027",1.8,"Repeat"),
+
+("ST/2022/028",1.8,"Proper"),
+("ST/2022/029",1.7,"Proper"),
+("ST/2022/030",2.0,"Proper"),
+("ST/2022/031",1.9,"Proper"),
+("ST/2022/032",1.5,"Proper"),
+("ST/2022/033",1.9,"Proper"),
+("ST/2022/034",1.9,"Proper"),
+("ST/2022/035",1.8,"Proper"),
+("ST/2022/036",1.6,"Proper"),
+("ST/2022/037",1.8,"Proper") ;
+
+
+INSERT INTO department VALUES	
+("depICT","Department of ICT"),
+("depBST","Department of BST"),
+("depET","Department of ET"),
+("depMulti","Department of Multideciplinary") ;
