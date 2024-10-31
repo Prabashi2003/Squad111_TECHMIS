@@ -4,13 +4,9 @@ title VARCHAR(50),
 credits INT(1),
 theory_hrs INT(2),
 practical_hrs INT(2),
-stu_id VARCHAR(20),
 department_id VARCHAR(10),
 PRIMARY KEY(code)
 );
-
-ALTER TABLE course_units
-ADD FOREIGN KEY(stu_id)REFERENCES user(user_id);
 
 ALTER TABLE course_units
 ADD FOREIGN KEY(department_id)REFERENCES department(dep_id);
