@@ -1,0 +1,11 @@
+INSERT INTO technical_officer VALUES
+("TO/003","depICT"),
+("TO/004","depICT"),
+("TO/005","depET"),
+("TO/006","depET"),
+("TO/007","depET"),
+("TO/008","depBST"),
+("TO/009","depICT"),
+("TO/010","depMulti"),
+("TO/011","depBST"),
+("TO/012","depMulti") ;
