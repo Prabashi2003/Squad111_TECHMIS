@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+ <html>
+<head>
+  <style>
+    body{
+      background-color: aqua;
+      background-image: url("image12.jpg");
+    }
+    .btn{
+      text-align:center;
+      background-color: rosybrown;
+    }
+    h1{
+      text-align: center;
+      color: darkblue;
+    }
+  </style>
+</head>
+ <body>
+ 
+  <div class='form_container'>
+  <h1>BOOK ISSUE</h1>
+ <table border="2" align="center" cellpadding="5" cellspacing="5">
+ <tr> <td> Enter ISBN :</td>   <td> <input type="text" name="isbn" size="48"> </td>  </tr>
+ <tr> <td> Enter Title :</td> <td> <input type="text" name="title" size="48"> </td> </tr>
+ <tr> <td> Enter Author :</td> <td> <input type="text" name="author" size="48"> </td> </tr>
+ <tr> <td> Enter Edition :</td> <td> <input type="text" name="edition" size="48"> </td> </tr>
+ <tr> <td> Enter Publication: </td> <td> <input type="text" name="publication" size="48"> </td> </tr>
+ <tr> <td> Enter Issue Date: </td> <td> <input type="text" name="publication" size="48"> </td> </tr>
+ <tr> <td> Enter Due Date: </td> <td> <input type="text" name="publication" size="48"> </td> </tr>
+ <tr> <td> <button name="submit" value="Issue Book" class="btn">Issue Book</td></tr>
+ </table>
+ </form><br><br><br><br><br>
+</body>
+ </html>
