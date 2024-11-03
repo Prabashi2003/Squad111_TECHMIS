@@ -6,7 +6,8 @@ INSERT INTO course_units VALUES
 ('ICT1253','Computer Networks',3,30,30,'depICT','Ms.Chanduni Gamage'),
 ('ENG1212','General English',2,30,Null,'depMulti','Mr.Naveen Walimuni'),
 ('TCS1212','Fundamentals of Management',2,30,Null,'depMulti','Mr.Chathuranga Adhikari'),
-('TMS1233','Discrete Mathematics',3,45,Null,'depMulti','Mrs.J.W.Achini');
+('TMS1233','Discrete Mathematics',3,45,Null,'depET','Mrs.J.W.Achini');
+
 
 INSERT INTO exam_marks VALUES
 ('90','80','55','90',NULL,'84',NULL,'78','ICT1221','ST/2021/023'),
