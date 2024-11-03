@@ -1,0 +1,54 @@
+CREATE VIEW grade_point_view AS
+SELECT 
+    e.stu_id,
+    e.course_code,
+    e.grade,
+    CASE 
+        WHEN e.grade = 'A' THEN 4.0
+        WHEN e.grade = 'B' THEN 3.0
+        WHEN e.grade = 'C' THEN 2.0
+        WHEN e.grade = 'D' THEN 1.0
+        ELSE 0.0  -- Assuming 'F' or other grades are 0 points
+    END AS Grade_point
+FROM 
+    exam_grades e; -- This assumes you have a view or table that has exam grades
+-----
+
+CREATE VIEW CGPA_view AS
+SELECT 
+    gpv.stu_id,
+    (SUM(gpv.Grade_point * cu.credits) / SUM(cu.credits)) AS CGPA
+FROM 
+    grade_point_view gpv
+JOIN 
+    course_units cu ON gpv.course_code = cu.code  -- Ensure course_units.code matches the course_code in grade_point_view
+WHERE 
+    gpv.course_code != 'ENG1222'  -- Exclude specific courses
+GROUP BY 
+    gpv.stu_id;
+
+
+
+SELECT * FROM CGPA_view;
+
+-----
+
+
+
+CREATE VIEW SGPA_view AS
+SELECT 
+    gpv.stu_id,
+    (SUM(gpv.Grade_point * cu.credits) / SUM(cu.credits)) AS SGPA
+FROM 
+    grade_point_view gpv
+JOIN 
+    course_units cu ON gpv.course_code = cu.code  -- Use course_units instead of course
+GROUP BY 
+    gpv.stu_id;
+
+
+SELECT * FROM SGPA_view;
+
+UPDATE student s
+    -> JOIN CGPA_view cg ON s.stu_id = cg.stu_id
+    -> SET s.gpa = cg.CGPA;
