@@ -1,0 +1,48 @@
+CREATE OR REPLACE VIEW final_exam_marks AS
+SELECT
+    stu_id,
+    course_code,
+    ROUND(
+        COALESCE(quiz1, 0) * 0.10 +
+        COALESCE(quiz2, 0) * 0.10 +
+        COALESCE(quiz3, 0) * 0.10 +
+        COALESCE(assessment, 0) * 0.20 +
+        COALESCE(mid_theory, 0) * 0.10 +
+        COALESCE(mid_practical, 0) * 0.10 +
+        COALESCE(end_theory, 0) * 0.15 +
+        COALESCE(end_practical, 0) * 0.15,
+        2
+    ) AS final_mark
+FROM
+    exam_marks;
+SELECT * FROM final_exam_marks;
+
+
+CREATE VIEW exam_grades AS
+SELECT 
+    stu_id,
+    course_code,
+    final_mark,
+    CASE
+        WHEN final_mark <= 100 AND final_mark >= 85 THEN 'C'
+                WHEN final_mark < 85 AND final_mark >= 75 THEN 'A+'
+                WHEN final_mark < 75 AND final_mark >= 70 THEN 'A'
+                WHEN final_mark < 70 AND final_mark >= 65 THEN 'A-'
+                WHEN final_mark < 65 AND final_mark >= 60 THEN 'B+'
+                WHEN final_mark < 60 AND final_mark >= 55 THEN 'B'
+                WHEN final_mark < 55 AND final_mark >= 50 THEN 'B-'
+                WHEN final_mark < 50 AND final_mark >= 45 THEN 'C+'
+                WHEN final_mark < 45 AND final_mark >= 40 THEN 'C'
+                WHEN final_mark < 40 AND final_mark >= 35 THEN 'c-'
+                WHEN final_mark < 35 AND final_mark >= 30 THEN 'D'
+                ELSE 'E'
+    END AS grade
+FROM 
+    final_exam_marks;
+
+SELECT * FROM exam_grades;
+
+
+
+
+
