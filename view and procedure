@@ -1,0 +1,155 @@
+CREATE VIEW ca_marks AS
+SELECT 
+    stu_id,
+    course_code,
+    (
+        COALESCE(CAST(quiz1 AS DECIMAL(5,2)), 0) + 
+        COALESCE(CAST(quiz2 AS DECIMAL(5,2)), 0) + 
+        COALESCE(CAST(quiz3 AS DECIMAL(5,2)), 0) + 
+        COALESCE(CAST(assessment AS DECIMAL(5,2)), 0) + 
+        COALESCE(CAST(mid_theory AS DECIMAL(5,2)), 0) + 
+        COALESCE(CAST(mid_practical AS DECIMAL(5,2)), 0)
+    ) / 6 AS ca_mark,  -- Average of the six fields
+    (
+        (
+            COALESCE(CAST(quiz1 AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(quiz2 AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(quiz3 AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(assessment AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(mid_theory AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(mid_practical AS DECIMAL(5,2)), 0)
+        ) / 6 * 0.50
+    ) AS ca_percentage -- 50% of the CA average
+FROM 
+    exam_marks;
+
+
+SELECT * FROM ca_marks;
+
+
+
+
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE GetCAMarksByCourseCode(IN courseCode VARCHAR(10))
+BEGIN
+    SELECT 
+        stu_id,
+        course_code,
+        (
+            COALESCE(CAST(quiz1 AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(quiz2 AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(quiz3 AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(assessment AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(mid_theory AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(mid_practical AS DECIMAL(5,2)), 0)
+        ) / NULLIF(6, 0) AS ca_mark,  -- Average of the six fields
+        (
+            (
+                COALESCE(CAST(quiz1 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(quiz2 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(quiz3 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(assessment AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(mid_theory AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(mid_practical AS DECIMAL(5,2)), 0)
+            ) / NULLIF(6, 0) * 0.50
+        ) AS ca_percentage -- 50% of the CA average
+    FROM 
+        exam_marks
+    WHERE 
+        course_code = courseCode;
+END //
+
+DELIMITER ;
+
+
+
+CALL GetCAMarksByCourseCode('CS101');
+
+
+
+
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE GetCAMarks(
+    IN courseCode VARCHAR(10),
+    IN regNo VARCHAR(20),
+    IN mode ENUM('individual', 'summary')
+)
+BEGIN
+    IF mode = 'individual' THEN
+        -- Show CA marks for the specified course code and registration number
+        SELECT 
+            stu_id,
+            course_code,
+            (
+                COALESCE(CAST(quiz1 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(quiz2 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(quiz3 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(assessment AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(mid_theory AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(mid_practical AS DECIMAL(5,2)), 0)
+            ) / NULLIF(6, 0) AS ca_mark,  -- Average of the six fields
+            (
+                (
+                    COALESCE(CAST(quiz1 AS DECIMAL(5,2)), 0) + 
+                    COALESCE(CAST(quiz2 AS DECIMAL(5,2)), 0) + 
+                    COALESCE(CAST(quiz3 AS DECIMAL(5,2)), 0) + 
+                    COALESCE(CAST(assessment AS DECIMAL(5,2)), 0) + 
+                    COALESCE(CAST(mid_theory AS DECIMAL(5,2)), 0) + 
+                    COALESCE(CAST(mid_practical AS DECIMAL(5,2)), 0)
+                ) / NULLIF(6, 0) * 0.50
+            ) AS ca_percentage -- 50% of the CA average
+        FROM 
+            exam_marks
+        WHERE 
+            course_code = courseCode AND 
+            stu_id = regNo;
+    
+    ELSEIF mode = 'summary' THEN
+        -- Show summary of CA marks for the specified registration number across all courses
+        SELECT 
+            stu_id,
+            AVG(
+                COALESCE(CAST(quiz1 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(quiz2 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(quiz3 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(assessment AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(mid_theory AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(mid_practical AS DECIMAL(5,2)), 0)
+            ) / NULLIF(6, 0) AS average_ca_mark,
+            AVG(
+                (
+                    COALESCE(CAST(quiz1 AS DECIMAL(5,2)), 0) + 
+                    COALESCE(CAST(quiz2 AS DECIMAL(5,2)), 0) + 
+                    COALESCE(CAST(quiz3 AS DECIMAL(5,2)), 0) + 
+                    COALESCE(CAST(assessment AS DECIMAL(5,2)), 0) + 
+                    COALESCE(CAST(mid_theory AS DECIMAL(5,2)), 0) + 
+                    COALESCE(CAST(mid_practical AS DECIMAL(5,2)), 0)
+                ) / NULLIF(6, 0) * 0.50
+            ) AS average_ca_percentage -- Average of the CA percentage
+        FROM 
+            exam_marks
+        WHERE 
+            stu_id = regNo
+        GROUP BY 
+            stu_id;
+    END IF;
+END //
+
+DELIMITER ;
+
+
+CALL GetCAMarks('CS101', 'U001', 'individual');
+CALL GetCAMarks('', 'U001', 'summary');
+
+
+
+
+
