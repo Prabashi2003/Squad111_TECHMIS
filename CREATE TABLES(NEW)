@@ -5,21 +5,24 @@ credits INT(1),
 theory_hrs INT(2),
 practical_hrs INT(2),
 department_id VARCHAR(10),
+lecturer_in_charge VARCHAR(100),
 PRIMARY KEY(code)
 );
+
+
 
 ALTER TABLE course_units
 ADD FOREIGN KEY(department_id)REFERENCES department(dep_id);
 
 CREATE TABLE exam_marks(
-quiz1 DECIMAL(5,2),
-quiz2 DECIMAL(5,2),
-quiz3 DECIMAL(5,2),
-assessment DECIMAL(5,2),
-mid_theory DECIMAL(5,2),
-mid_practical DECIMAL(5,2),
-end_theory DECIMAL(5,2),
-end_practical DECIMAL(5,2),
+quiz1 VARCHAR(3),
+quiz2 VARCHAR(3),
+quiz3 VARCHAR(3),
+assessment VARCHAR(3),
+mid_theory VARCHAR(3),
+mid_practical VARCHAR(3),
+end_theory VARCHAR(3),
+end_practical VARCHAR(3),
 course_code VARCHAR(10),
 stu_id VARCHAR(20)
 );
@@ -40,3 +43,7 @@ ADD FOREIGN KEY(course_code)REFERENCES course(code);
 
 ALTER TABLE course_units_exam_marks
 ADD FOREIGN KEY(stu_id)REFERENCES user(user_id);
+
+
+
+	 
