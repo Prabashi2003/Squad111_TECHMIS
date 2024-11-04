@@ -1,4 +1,4 @@
-CREATE OR REPLACE VIEW final_exam_marks AS
+CREATE OR REPLACE VIEW final_exam_marks_view AS
 SELECT
     stu_id,
     course_code,
@@ -15,10 +15,10 @@ SELECT
     ) AS final_mark
 FROM
     exam_marks;
-SELECT * FROM final_exam_marks;
+SELECT * FROM final_exam_marks_view;
 
 
-CREATE VIEW exam_grades AS
+CREATE VIEW exam_grades_view AS
 SELECT 
     stu_id,
     course_code,
@@ -40,7 +40,7 @@ SELECT
 FROM 
     final_exam_marks;
 
-SELECT * FROM exam_grades;
+SELECT * FROM exam_grades_view;
 
 
 
