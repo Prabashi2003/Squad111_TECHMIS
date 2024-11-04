@@ -3,14 +3,14 @@ SELECT
     stu_id,
     course_code,
     ROUND(
-        COALESCE(quiz1, 0) * 0.10 +
-        COALESCE(quiz2, 0) * 0.10 +
-        COALESCE(quiz3, 0) * 0.10 +
-        COALESCE(assessment, 0) * 0.20 +
+        COALESCE(quiz1, 0) * 0.0333 +
+        COALESCE(quiz2, 0) * 0.0333 +
+        COALESCE(quiz3, 0) * 0.0333 +
+        COALESCE(assessment, 0) * 0.10 +
         COALESCE(mid_theory, 0) * 0.10 +
         COALESCE(mid_practical, 0) * 0.10 +
-        COALESCE(end_theory, 0) * 0.15 +
-        COALESCE(end_practical, 0) * 0.15,
+        COALESCE(end_theory, 0) * 0.30 +
+        COALESCE(end_practical, 0) * 0.30,
         2
     ) AS final_mark
 FROM
