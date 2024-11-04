@@ -46,3 +46,4 @@ FROM
     final_exam_marks_view;
 
 SELECT * FROM exam_grades_vie
+  
