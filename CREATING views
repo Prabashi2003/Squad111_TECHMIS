@@ -15,7 +15,12 @@ SELECT
     ) AS final_mark
 FROM
     exam_marks;
+
+
+
 SELECT * FROM final_exam_marks_view;
+
+
 
 
 CREATE VIEW exam_grades_view AS
@@ -38,6 +43,6 @@ SELECT
                 ELSE 'E'
     END AS grade
 FROM 
-    final_exam_marks;
+    final_exam_marks_view;
 
-SELECT * FROM exam_grades_view;
+SELECT * FROM exam_grades_vie
