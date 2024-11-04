@@ -1,0 +1,47 @@
+
+SHOW DATABASES;
+USE mysql;
+SHOW TABLES;
+SELECT * FROM user;
+SELECT user,host FROM user;
+
+CREATE DATABABSE tech_mis;
+USE tech_mis;
+
+CREATE USER 'Admin'@'localhost' IDENTIFIED BY 'admin_001';
+CREATE USER 'Dean'@'localhost' IDENTIFIED BY 'dean_002';
+CREATE USER 'Lecturer'@'localhost' IDENTIFIED BY 'lecturer_003';
+CREATE USER 'Technical Officer'@'localhost' IDENTIFIED BY 'technicalofficer_004';
+CREATE USER 'Student'@'localhost' IDENTIFIED BY 'student_005';
+
+GRANT ALL PRIVILEGES ON tech_mis.* TO 'Admin'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON tech_mis.* TO 'Dean'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON tech_mis.* TO 'Lecturer'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON tech_mis.attendance TO 'Technical Officer'@'localhost';
+GRANT SELECT ON tech_mis.attendance TO 'Student'@'localhost';
+GRANT SELECT ON tech_mis.exam_marks TO 'Student'@'localhost';
+
+FLUSH PRIVILEGES;
+
+SHOW GRANS FOR 'Admin'@'localhost';
+SHOW GRANS FOR 'Dean'@'localhost';
+SHOW GRANS FOR 'Lecturer'@'localhost';
+SHOW GRANS FOR 'Technical Officer'@'localhost';
+SHOW GRANS FOR 'Student'@'localhost';
+
+USE mysql;
+SELECT user,host FROM user;
+exit;
+
+mysql -u Admin -p
+mysql -u Dean -p
+mysql -u Lecturer -p
+mysql -u Technical Officer -p
+mysql -u Student -p
+
+ drop user
+'Admin'@'localhost',
+'Dean'@'localhost',
+'Lecturer'@'localhost',
+'Technical Officer'@'localhost',
+'Student'@'localhost';
