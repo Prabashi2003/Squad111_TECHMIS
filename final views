@@ -1,0 +1,58 @@
+CREATE VIEW grade_point_view AS
+SELECT
+    final_exam_marks_view.stu_id,
+    final_exam_marks_view.course_code,
+    final_exam_marks_view.final_mark,
+    student.state,
+    IF(student.state = 'Repeat', 2.0,
+        IF(final_exam_marks_view.final_mark >= 90, 4.0,
+        IF(final_exam_marks_view.final_mark >= 84, 4.0,
+        IF(final_exam_marks_view.final_mark >= 75, 3.7,
+        IF(final_exam_marks_view.final_mark >= 70, 3.3,
+        IF(final_exam_marks_view.final_mark >= 65, 3.0,
+        IF(final_exam_marks_view.final_mark >= 60, 2.7,
+        IF(final_exam_marks_view.final_mark >= 55, 2.3,
+        IF(final_exam_marks_view.final_mark >= 50, 2.0,
+        IF(final_exam_marks_view.final_mark >= 45, 1.7,
+        IF(final_exam_marks_view.final_mark >= 40, 1.3,
+        IF(final_exam_marks_view.final_mark >= 35, 1.0, 0.0
+	)))))))))))) AS Grade_point
+FROM
+    student,final_exam_marks_view
+WHERE
+    student.stu_id = final_exam_marks_view.stu_id;
+
+select * from grade_point_view;
+
+--SGPA
+CREATE VIEW SGPA_view AS
+SELECT 
+    grade_point_view.stu_id,
+    ROUND((SUM(grade_point_view.Grade_point * course_units.credits) / SUM(course_units.credits)), 2) AS SGPA
+FROM 
+    grade_point_view
+JOIN 
+    course_units ON grade_point_view.course_code = course_units.code
+GROUP BY 
+    grade_point_view.stu_id;
+
+select * from SGPA_view;
+
+-- CGPA
+CREATE VIEW CGPA_view AS
+SELECT 
+    grade_point_view.stu_id,
+    ROUND((SUM(grade_point_view.Grade_point * course_units.credits) / SUM(course_units.credits)), 2) AS CGPA
+FROM 
+    grade_point_view
+JOIN 
+    course_units ON grade_point_view.course_code = course_units.code
+WHERE 
+    course_units.code != 'ENG1212'  
+GROUP BY 
+    grade_point_view.stu_id;
+
+select * from CGPA_view
+
+
+
