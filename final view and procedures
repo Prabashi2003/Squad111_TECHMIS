@@ -1,0 +1,172 @@
+--create a view to get ca marks 
+
+
+CREATE VIEW ca_marks_percentage_view AS
+SELECT
+    stu_id,
+    course_code,
+          ROUND((
+              COALESCE(CAST(quiz1 AS DECIMAL(5,2)), 0) +
+              COALESCE(CAST(quiz2 AS DECIMAL(5,2)), 0) +
+              COALESCE(CAST(quiz3 AS DECIMAL(5,2)), 0) +
+              COALESCE(CAST(assessment AS DECIMAL(5,2)), 0) +
+              COALESCE(CAST(mid_theory AS DECIMAL(5,2)), 0) +
+              COALESCE(CAST(mid_practical AS DECIMAL(5,2)), 0)
+          ) / 6, 2) AS ca_mark,
+          ROUND((
+              COALESCE(CAST(quiz1 AS DECIMAL(5,2)), 0) +
+              COALESCE(CAST(quiz2 AS DECIMAL(5,2)), 0) +
+              COALESCE(CAST(quiz3 AS DECIMAL(5,2)), 0) +
+              COALESCE(CAST(assessment AS DECIMAL(5,2)), 0) +
+              COALESCE(CAST(mid_theory AS DECIMAL(5,2)), 0) +
+              COALESCE(CAST(mid_practical AS DECIMAL(5,2)), 0)
+          ) / 6 * 0.50, 2) AS ca_percentage
+      FROM
+          exam_marks;
+
+
+SELECT * FROM ca_marks_percentage_view;
+
+
+
+
+
+
+
+
+
+
+
+--procedure for getting ca marks by giving course code for all batch
+
+DELIMITER //
+
+CREATE PROCEDURE ca_marks_whole_batch(IN courseCode VARCHAR(10))
+BEGIN
+    SELECT 
+        stu_id,
+        course_code,
+        (
+            COALESCE(CAST(quiz1 AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(quiz2 AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(quiz3 AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(assessment AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(mid_theory AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(mid_practical AS DECIMAL(5,2)), 0)
+        ) / NULLIF(6, 0) AS ca_mark,  -- Average of the six fields
+        (
+            (
+                COALESCE(CAST(quiz1 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(quiz2 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(quiz3 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(assessment AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(mid_theory AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(mid_practical AS DECIMAL(5,2)), 0)
+            ) / NULLIF(6, 0) * 0.50
+        ) AS ca_percentage -- 50% of the CA average
+    FROM 
+        exam_marks
+    WHERE 
+        course_code = courseCode;
+END //
+
+DELIMITER ;
+
+
+
+CALL ca_marks_whole_batch('ICT1233');
+
+
+
+
+
+
+
+
+
+
+--procedure for getting ca marks by giving course code as individuals
+
+
+DELIMITER //
+
+CREATE PROCEDURE ca_marks_individuals(
+    IN courseCode VARCHAR(10),
+    IN regNo VARCHAR(20)
+)
+BEGIN
+ 
+    SELECT 
+        stu_id,
+        course_code,
+        (
+            COALESCE(CAST(quiz1 AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(quiz2 AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(quiz3 AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(assessment AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(mid_theory AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(mid_practical AS DECIMAL(5,2)), 0)
+        ) / NULLIF(6, 0) AS ca_mark,  -- Average of the six fields
+        (
+            (
+                COALESCE(CAST(quiz1 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(quiz2 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(quiz3 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(assessment AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(mid_theory AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(mid_practical AS DECIMAL(5,2)), 0)
+            ) / NULLIF(6, 0) * 0.50
+        ) AS ca_percentage -- 50% of the CA average
+    FROM 
+        exam_marks
+    WHERE 
+        course_code = courseCode AND 
+        stu_id = regNo;
+END //
+
+DELIMITER ;
+CALL ca_marks_individuals('ICT1233', 'ST/2022/035');
+
+
+
+
+--procedure for getting summery of ca marks by giving registration no as individuals
+
+DELIMITER //
+
+CREATE PROCEDURE summery_ca_marks_individuals(
+    IN regNo VARCHAR(20)
+)
+BEGIN
+   
+    SELECT 
+        stu_id,
+        AVG(
+            COALESCE(CAST(quiz1 AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(quiz2 AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(quiz3 AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(assessment AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(mid_theory AS DECIMAL(5,2)), 0) + 
+            COALESCE(CAST(mid_practical AS DECIMAL(5,2)), 0)
+        ) / NULLIF(6, 0) AS average_ca_mark,
+        AVG(
+            (
+                COALESCE(CAST(quiz1 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(quiz2 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(quiz3 AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(assessment AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(mid_theory AS DECIMAL(5,2)), 0) + 
+                COALESCE(CAST(mid_practical AS DECIMAL(5,2)), 0)
+            ) / NULLIF(6, 0) * 0.50
+        ) AS average_ca_percentage -- Average of the CA percentage
+    FROM 
+        exam_marks
+    WHERE 
+        stu_id = regNo
+    GROUP BY 
+        stu_id;
+END //
+
+DELIMITER ;
+CALL summery_ca_marks_individuals('ST/2022/034');
+
