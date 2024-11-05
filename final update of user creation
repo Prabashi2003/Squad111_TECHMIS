@@ -23,11 +23,11 @@ GRANT SELECT ON tech_mis.exam_marks TO 'Student'@'localhost';
 
 FLUSH PRIVILEGES;
 
-SHOW GRANS FOR 'Admin'@'localhost';
-SHOW GRANS FOR 'Dean'@'localhost';
-SHOW GRANS FOR 'Lecturer'@'localhost';
-SHOW GRANS FOR 'Technical Officer'@'localhost';
-SHOW GRANS FOR 'Student'@'localhost';
+SHOW GRANTS FOR 'Admin'@'localhost';
+SHOW GRANTS FOR 'Dean'@'localhost';
+SHOW GRANTS FOR 'Lecturer'@'localhost';
+SHOW GRANTS FOR 'Technical Officer'@'localhost';
+SHOW GRANTS FOR 'Student'@'localhost';
 
 USE mysql;
 SELECT user,host FROM user;
