@@ -14,7 +14,7 @@ SELECT
                 COALESCE(end_theory, 0) * 0.30 +
                 COALESCE(end_practical, 0) * 0.30
             
-            WHEN course_code IN ('ICT1221', 'ICT1242', 'TMS1233', 'TCS1212') THEN 
+            WHEN course_code IN ('ICT1221', 'ICT1242', 'TMS1233', 'TCS1212','ENG1212') THEN 
                 COALESCE(quiz1, 0) * 0.0333 +
                 COALESCE(quiz2, 0) * 0.0333 +
                 COALESCE(quiz3, 0) * 0.0333 +
