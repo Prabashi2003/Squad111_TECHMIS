@@ -3,18 +3,40 @@ SELECT
     stu_id,
     course_code,
     ROUND(
-        COALESCE(quiz1, 0) * 0.0333 +
-        COALESCE(quiz2, 0) * 0.0333 +
-        COALESCE(quiz3, 0) * 0.0333 +
-        COALESCE(assessment, 0) * 0.10 +
-        COALESCE(mid_theory, 0) * 0.10 +
-        COALESCE(mid_practical, 0) * 0.10 +
-        COALESCE(end_theory, 0) * 0.30 +
-        COALESCE(end_practical, 0) * 0.30,
+        CASE 
+            
+            WHEN course_code IN ('ICT1233', 'ICT1253') THEN 
+                COALESCE(quiz1, 0) * 0.0333 +
+                COALESCE(quiz2, 0) * 0.0333 +
+                COALESCE(quiz3, 0) * 0.0333 +
+                COALESCE(assessment, 0) * 0.10 +
+                COALESCE(mid_practical, 0) * 0.20 +
+                COALESCE(end_theory, 0) * 0.30 +
+                COALESCE(end_practical, 0) * 0.30
+            
+            WHEN course_code IN ('ICT1221', 'ICT1242', 'TMS1233', 'TCS1212') THEN 
+                COALESCE(quiz1, 0) * 0.0333 +
+                COALESCE(quiz2, 0) * 0.0333 +
+                COALESCE(quiz3, 0) * 0.0333 +
+                COALESCE(assessment, 0) * 0.10 +
+                COALESCE(mid_theory, 0) * 0.20 +
+                COALESCE(end_theory, 0) * 0.60
+           
+            WHEN course_code = 'ICT1222' THEN 
+                COALESCE(quiz1, 0) * 0.0333 +
+                COALESCE(quiz2, 0) * 0.0333 +
+                COALESCE(quiz3, 0) * 0.0333 +
+                COALESCE(assessment, 0) * 0.10 +
+                COALESCE(mid_practical, 0) * 0.20 +
+                COALESCE(end_practical, 0) * 0.60
+          
+            ELSE 0
+        END,
         2
     ) AS final_mark
 FROM
     exam_marks;
+
 
 
 
@@ -23,7 +45,7 @@ SELECT * FROM final_exam_marks_view;
 
 
 
-CREATE VIEW exam_grades_view AS
+CREATE OR REPLACE VIEW exam_grades_view AS
 SELECT 
     stu_id,
     course_code,
@@ -45,5 +67,10 @@ SELECT
 FROM 
     final_exam_marks_view;
 
-SELECT * FROM exam_grades_vie
-  
+SELECT * FROM exam_grades_view;
+
+
+
+
+
+
