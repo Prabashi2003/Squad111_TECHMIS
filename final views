@@ -55,4 +55,12 @@ GROUP BY
 select * from CGPA_view
 
 
+ALTER TABLE student MODIFY COLUMN gpa DECIMAL(4,2);
+UPDATE student
+SET gpa = (
+    SELECT CGPA
+    FROM CGPA_view
+    WHERE CGPA_view.stu_id = student.stu_id
+);
+
 
