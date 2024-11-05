@@ -1,0 +1,35 @@
+CREATE TABLE medical(
+med_id CHAR(6) PRIMARY KEY,
+stu_id VARCHAR(20),
+description VARCHAR(100),
+submitDate DATE,
+datesCovered INT
+);
+
+ALTER TABLE medical 
+ADD FOREIGN KEY (stu_id) REFERENCES student(stu_id);
+
+CREATE TABLE attendance(
+stu_id VARCHAR(20),
+course_code VARCHAR(10),
+medical_id CHAR(6),
+date DATE,
+type VARCHAR(20),
+status VARCHAR(20)
+);
+
+ALTER TABLE attendance 
+ADD FOREIGN KEY (stu_id) REFERENCES student(stu_id),
+ADD FOREIGN KEY (course_code) REFERENCES course_units(code),
+ADD FOREIGN KEY (medical_id) REFERENCES medical(med_id);
+
+CREATE TABLE eligibility(
+stu_id VARCHAR(20),
+course_code VARCHAR(10),
+type VARCHAR(20),
+status VARCHAR(20)
+);
+
+ALTER TABLE eligibility 
+ADD FOREIGN KEY (stu_id) REFERENCES student(stu_id),
+ADD FOREIGN KEY (course_code) REFERENCES course_units(code);

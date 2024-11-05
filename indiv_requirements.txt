@@ -1,0 +1,137 @@
+MariaDB [tech_mis]> DESC medical;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| med_id       | char(6)      | NO   | PRI | NULL    |       |
+| stu_id       | varchar(20)  | YES  | MUL | NULL    |       |
+| description  | varchar(100) | YES  |     | NULL    |       |
+| submitDate   | date         | YES  |     | NULL    |       |
+| datesCovered | int(11)      | YES  |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+5 rows in set (0.040 sec)
+
+
+MariaDB [tech_mis]> DESC attendance;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| stu_id      | varchar(20) | YES  | MUL | NULL    |       |
+| course_code | varchar(10) | YES  | MUL | NULL    |       |
+| medical_id  | char(6)     | YES  | MUL | NULL    |       |
+| date        | date        | YES  |     | NULL    |       |
+| type        | varchar(20) | YES  |     | NULL    |       |
+| status      | varchar(20) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+6 rows in set (0.024 sec)
+
+
+MariaDB [tech_mis]> DESC eligibility;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| stu_id      | varchar(20) | YES  | MUL | NULL    |       |
+| course_code | varchar(10) | YES  | MUL | NULL    |       |
+| type        | varchar(20) | YES  |     | NULL    |       |
+| status      | varchar(20) | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+4 rows in set (0.024 sec)
+
+
+//views
+
+MariaDB [tech_mis]> DESC attendance_eligibility;			
++----------------+---------------+------+-----+---------+-------+
+| Field          | Type          | Null | Key | Default | Extra |
++----------------+---------------+------+-----+---------+-------+
+| stu_id         | varchar(20)   | YES  |     | NULL    |       |
+| course_code    | varchar(10)   | YES  |     | NULL    |       |
+| type           | varchar(20)   | YES  |     | NULL    |       |
+| 80% Percentage | decimal(27,4) | YES  |     | NULL    |       |
+| Eligibility    | varchar(12)   | YES  |     | NULL    |       |
++----------------+---------------+------+-----+---------+-------+
+5 rows in set (0.022 sec)
+
+
+
+MariaDB [tech_mis]> DESC ca_marks;
++-------------+---------------+------+-----+---------+-------+
+| Field       | Type          | Null | Key | Default | Extra |
++-------------+---------------+------+-----+---------+-------+
+| stu_id      | varchar(20)   | YES  |     | NULL    |       |
+| course_code | varchar(10)   | YES  |     | NULL    |       |
+| ca_mark     | decimal(13,4) | YES  |     | NULL    |       |
++-------------+---------------+------+-----+---------+-------+
+3 rows in set (0.022 sec)
+
+
+MariaDB [tech_mis]> DESC overall_eligibility;
++--------------------+-------------+------+-----+---------+-------+
+| Field              | Type        | Null | Key | Default | Extra |
++--------------------+-------------+------+-----+---------+-------+
+| stu_id             | varchar(20) | YES  |     | NULL    |       |
+| course_code        | varchar(10) | YES  |     | NULL    |       |
+| type               | varchar(20) | YES  |     | NULL    |       |
+| eligibility_status | varchar(12) | YES  |     | NULL    |       |
++--------------------+-------------+------+-----+---------+-------+
+4 rows in set (0.023 sec)
+
+
+** If some students have submitted a medical for a day there should be a way to record it
+
+SELECT * FROM attendance WHERE medical_id IS NOT NULL;
+
+
+** In attendance recording tables there should be data
+▪ to cover >= 80% students
+SELECT * FROM attendance_eligibility WHERE Eligibility = "Not Eligible";
+
+▪ < 80% students
+SELECT * FROM attendance_eligibility WHERE Eligibility = "Eligible";
+
+▪ with medical >= 80% students
+SELECT a.*
+FROM attendance a
+JOIN eligibility e ON a.stu_id = e.stu_id AND a.course_code = e.course_code AND a.type = e.type
+WHERE a.medical_id IS NOT NULL AND e.status = 'Eligible';
+
+or 
+
+SELECT attendance.* FROM attendance,eligibility WHERE attendance.stu_id = eligibility.stu_id AND attendance.course_code = eligibility.course_code AND attendance.type = eligibility.type AND attendance.medical_id IS NOT NULL AND eligibility.status = "Eligible";
+
+▪ with medical < 80% students
+SELECT a.*
+FROM attendance a
+JOIN eligibility e ON a.stu_id = e.stu_id AND a.course_code = e.course_code AND a.type = e.type
+WHERE a.medical_id IS NOT NULL AND e.status = 'Not eligible';
+
+or 
+
+SELECT attendance.* FROM attendance,eligibility WHERE attendance.stu_id = eligibility.stu_id AND attendance.course_code = eligibility.course_code AND attendance.type = eligibility.type AND attendance.medical_id IS NOT NULL AND eligibility.status = "Not eligible";
+
+
+There should be a way to view attendance details
+▪ as a summary for whole batch
+SELECT * FROM attendance WHERE stu_id LIKE "ST/2022/%" AND course_code = "ICT1222";
+
+	• by giving the course code
+		o with registration nos, dates, percentage, and eligibility
+• for all the subjects with percentage and eligibility
+
+SELECT * FROM attendance_eligibility;
+
+
+▪ as individuals by giving the registration no
+	• as a summery for all the course units
+SELECT * FROM attendance WHERE stu_id = "ST/2022/028";
+
+▪ as individuals by giving the registration no and course code
+SELECT * FROM attendance WHERE stu_id = "ST/2022/028" AND course_code = "ICT1233";
+
+When there is both theory and practical for a subject there should be a way to check attendance only for theory, only for practical and as combined
+SELECT * FROM attendance WHERE stu_id = "ST/2022/028" AND course_code = "ICT1233" AND type = "Theory";
+
+
+**Eligibility requirements**
+There should be a way to check eligibility (attendance + CA marks) as individuals and for the whole batch
+SELECT * FROM eligibility WHERE stu_id = "ST/2022/028";
+SELECT * FROM eligibility WHERE stu_id LIKE "ST/2022/%";
